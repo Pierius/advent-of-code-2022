@@ -12,13 +12,28 @@ namespace AdventOfCode2022.Code.Days
     {
         public abstract Day Day { get; }
         public abstract string Title { get; }
+        public abstract bool EnableSampleInput { get; }
         public abstract string[] SampleInput { get; }
 
         public List<object> Answers = new List<object>();
 
-        public abstract void Execute();
+        public void Execute()
+        {
+            PartOne(GetPuzzleInput());
+            PartTwo(GetPuzzleInput());
+
+            WriteAnswers();
+        }
+        public abstract void PartOne(string[] puzzleInput);
+        public abstract void PartTwo(string[] puzzleInput);
+
         public string[] GetPuzzleInput()
         {
+            if (EnableSampleInput)
+            {
+                return SampleInput;
+            }
+
             string path;
             int dayNumber = DayConverter.ConvertToInt(Day);
 

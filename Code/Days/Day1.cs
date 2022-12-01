@@ -11,6 +11,7 @@ namespace AdventOfCode2022.Code.Days
     {
         public override Day Day => Day.One;
         public override string Title => "Calorie Counting";
+        public override bool EnableSampleInput => false;
         public override string[] SampleInput => new string[]
         {
             "1000",
@@ -28,16 +29,8 @@ namespace AdventOfCode2022.Code.Days
             "",
             "10000",
         };
-
-        public override void Execute()
-        {
-            ExecutePartOne(GetPuzzleInput());
-            ExecutePartTwo(GetPuzzleInput());
-
-            WriteAnswers();
-        }
-
-        private void ExecutePartOne(string[] puzzleInput)
+        
+        public override void PartOne(string[] puzzleInput)
         {
             int mostCalories = 0;
             int sum = 0;
@@ -56,7 +49,7 @@ namespace AdventOfCode2022.Code.Days
             Answers.Add(mostCalories);
         }
 
-        private void ExecutePartTwo(string[] puzzleInput)
+        public override void PartTwo(string[] puzzleInput)
         {
             int[] topThreeMostCalories = new int[3]{ 0, 0, 0 };
             int sum = 0;
