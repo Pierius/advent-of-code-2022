@@ -79,7 +79,7 @@ namespace AdventOfCode2022.Code.Days
                 "$ ls",
                 "dir "
             };
-            private Directory _activeDirectory;
+            private Directory _currentDirectory;
 
             public int UnusedSpace
             {
@@ -90,7 +90,7 @@ namespace AdventOfCode2022.Code.Days
             public FileSystem()
             {
                 RootDirectory = new Directory("/");
-                _activeDirectory = RootDirectory;
+                _currentDirectory = RootDirectory;
             }
 
             public void ReadOutput(string output)
@@ -101,39 +101,39 @@ namespace AdventOfCode2022.Code.Days
                 switch(command)
                 {
                     case "$ cd /":
-                        _activeDirectory = RootDirectory;
+                        _currentDirectory = RootDirectory;
                         break;
                     case "$ cd ..":
-                        if (_activeDirectory.Parent != null)
+                        if (_currentDirectory.Parent != null)
                         {
-                            _activeDirectory = _activeDirectory.Parent;
+                            _currentDirectory = _currentDirectory.Parent;
                         }
                         break;
                     case "$ cd ":
                         name = output.Substring(command.Length - 1);
-                        if (_activeDirectory.Directories.Exists(o => o.Name == name))
+                        if (_currentDirectory.Directories.Exists(o => o.Name == name))
                         {
-                            _activeDirectory = _activeDirectory.Directories.First(o => o.Name == name);
+                            _currentDirectory = _currentDirectory.Directories.First(o => o.Name == name);
                         }
                         else
                         {
-                            _activeDirectory.Directories.Add(new Directory(name) { Parent = _activeDirectory });
-                            _activeDirectory = _activeDirectory.Directories.First(o => o.Name == name);
+                            _currentDirectory.Directories.Add(new Directory(name) { Parent = _currentDirectory });
+                            _currentDirectory = _currentDirectory.Directories.First(o => o.Name == name);
                         }
                         break;
                     case "$ ls":
                         // do nothing
                         break;
                     case "dir ":
-                        name = output.Substring(command.Length - 1);
+                        // do nothing
                         break;
                     default:
                         string[] file = output.Split(' ');
                         name = file[1];
                         int size = int.Parse(file[0]);
 
-                        _activeDirectory.Files.Add(new File(name, size));
-                        IncreaseDirectorySize(_activeDirectory, size);
+                        _currentDirectory.Files.Add(new File(name, size));
+                        IncreaseDirectorySize(_currentDirectory, size);
                         break;
                 }
             }
